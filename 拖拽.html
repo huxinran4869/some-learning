@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+    .left{
+        position: relative;
+        float: left;
+        background: yellow;
+        border-right: 1px solid black;
+        line-height:200px;
+        text-align: center;
+        height: 200px;
+        min-width: 100px;
+        max-width: 300px;
+    }
+    .drag{
+        position: absolute;
+        right: -10px;
+        top: 0;
+        height: 100%;
+        width: 20px;
+        cursor: e-resize;
+    }
+    .right{
+        height: 200px;
+        line-height: 200px;
+        text-align: center;
+        background: pink; 
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left" id="left">left
+            <div class="drag" id="drag"></div>
+        </div>
+        <div class="right">right</div>
+    </div>
+    <script type="text/javascript">
+        let dragLine=document.getElementById('drag');
+        let leftDiv= document.getElementById('left');
+        let startPosition, startWidth;
+        function stretch(e){
+            leftDiv.style.width= startWidth+e.pageX-startPosition+'px';
+        }
+        dragLine.addEventListener('mousedown',function(e){
+            e.preventDefault();
+            console.log(e.pageX);
+            startPosition=e.pageX;
+            startWidth= leftDiv.offsetWidth;
+            dragLine.addEventListener('mousemove', stretch);
+            document.addEventListener('mouseup',function(){
+                dragLine.removeEventListener('mousemove',stretch)
+        })
+    })
+    </script>
+</body>
+</html>

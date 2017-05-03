@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        *{
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .bubble-sort{
+            font: 14px sans-serif;
+            width: 80px;
+            height: 30px;
+            line-height: 30px;
+            margin: 20px 0 20px 10%;
+            text-align: center;
+            border: 1px solid #d9d9d9;
+            border-radius: 3px;
+            box-shadow: 0 1px 6px hsla(0,0%,39%,.2) ;
+            cursor: pointer;
+            display: inline-block;
+        }
+        #container{
+            width: 80%;
+            height: 60%;
+            border: 1px solid #d9d9d9;
+            border-radius: 3px;
+            box-shadow: 0 1px 6px hsla(0,0%,39%,.2) ;
+            margin: 0 10%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding: 5px;
+        }
+        .bar{
+            width: 40px;
+            background: palevioletred;
+            margin: auto 20px 0 0;
+            text-align: center;
+        }
+        @keyframes leftMove {
+            from{margin-right: 0;
+                margin-left: 20px;
+                background: yellow;
+            }
+            to{margin-right: 20px;
+                margin-left: 0;
+                background: palevioletred;
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="wrap">
+    <div class="bubble-sort" id="left-add">左侧添加</div>
+    <div class="bubble-sort" id="right-add">右侧添加</div>
+    <div class="bubble-sort" id="bubble-sort">冒泡排序</div>
+    <div id="container"></div>
+</div>
+<script type="text/javascript">
+    let data=[20,35,30,40,55,18,88,68], state=[],num=[],leftArr=[],rightArr=[];
+    function stickShow(arr,key){
+        arr.map((x,i)=>{
+            let stick=document.createElement('div');
+        if(i===key){
+            stick.style.animation='leftMove 1s';
+        }
+        stick.className='bar';
+        stick.style.height=3*x+'px';
+        stick.innerHTML=x;
+        document.getElementById('container').appendChild(stick);
+    });
+    }
+    stickShow(data);
+    document.getElementById('left-add').addEventListener('click',function(){
+        let left=Math.round(Math.random()*50+10);
+        data.unshift(left);
+        leftArr.push(left);
+        document.getElementById('container').innerHTML="";
+        stickShow(data);
+        console.log(leftArr);
+    });
+    document.getElementById('right-add').addEventListener('click',function(){
+        let right=Math.round(Math.random()*50+10);
+        data.push(right);
+        rightArr.push(right);
+        document.getElementById('container').innerHTML="";
+        stickShow(data);
+        console.log(rightArr);
+    });
+    document.getElementById('bubble-sort').addEventListener('click',function(){
+        for(let i = 0; i < data.length; i++){
+            for(let j = 0; j < data.length - i - 1; j++){
+                if(data[j]>data[j+1]){
+                    let temp=data[j];
+                    data[j]=data[j+1];
+                    data[j+1]=temp;
+                    state.push(data.slice());
+                    num.push(j);
+                }
+            }
+        }
+        console.log(state,num);
+        let timer=setInterval(function(){
+            document.getElementById('container').innerHTML="";
+            let style=num.shift();
+            let show=state.shift()||[];
+            console.log(show);
+
+//            document.getElementById('stop').addEventListener('click',()=>{
+//                clearInterval(timer);
+//        });
+//            show.map((x,i)=>{
+//                let stick = document.createElement('div');
+//            if(i==style){
+//                stick.style.animation='leftMove 1s ease-in-out'
+//            }
+//                stick.className = 'bar';
+//                stick.style.height = 3 * x + 'px';
+//                stick.innerHTML = x;
+//                document.getElementById('container').appendChild(stick);
+//        });
+            if(state.length===0){
+                clearInterval(timer);
+            }
+            stickShow(show,style);
+        },1000)
+    });
+</script>
+</body>
+</html>
