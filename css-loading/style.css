@@ -10,18 +10,21 @@ body,#wrap,#out{
     align-items: center;
 }
 #wrap{
-    width: 104px;
-    height: 104px;
-    border-radius: 50%;
-    overflow: hidden;
-}
-#out{
-    position: relative;
     width: 100px;
     height: 100px;
-    border: 2px solid darkred;
-    border-radius: 50% 50% 50% 0;
+    border-radius: 100% 100% 100% 0;
+    border: 2px solid orangered;
+    position: relative;
     animation: roundRotate 2s linear infinite;
+}
+#out{
+    position: absolute;
+    bottom: -2px;
+    left: -2px;
+    width: 52px;
+    height: 52px;
+    background: white;
+    transform-origin: right top;
 }
 #inner{
     position: relative;
@@ -57,7 +60,7 @@ body,#wrap,#out{
     border-radius: 0 30px 30px 0;
     background: pink;
     opacity: 1;
-    animation: hide 2s steps(1,end) infinite;
+    animation: hide 2s steps(1,end) infinite; /*steps 的end，停留在0的状态，然后跳到50%的状态；steps 的start，停留在%的状态，然后跳到%的状态*/
 }
 @keyframes roundRotate {
     from {
@@ -67,12 +70,11 @@ body,#wrap,#out{
         transform: rotate(0deg);
     }
 }
-
 @keyframes hide {
     0% { opacity: 1; }
-    50%,100% { opacity: 0; }
+    50% { opacity: 0; }
 }
 @keyframes show {
     0% { opacity: 0; }
-    50%,100% { opacity: 1; }
+    50% { opacity: 1; }
 }
